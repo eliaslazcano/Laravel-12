@@ -2,23 +2,27 @@
 
 namespace App\Models;
 
-use Illuminate\Support\Arr;
+use Illuminate\Database\Eloquent\Model;
 
-class Job
+class Job extends Model
 {
-    public static function all(): array
-    {
-      return [
-        ['id' => 1, 'title' => 'Director', 'salary' => '$50,000'],
-        ['id' => 2, 'title' => 'Programmer', 'salary' => '$10,000'],
-        ['id' => 3, 'title' => 'Teacher', 'salary' => '$40,000'],
-      ];
-    }
+  protected $table = 'job_listings'; //Tabela da base de dados para o Eloquent usar de referencia
+  protected $fillable = ['title', 'salary']; //Colunas que podem receber INSERT em massa (segurança)
 
-    public static function find(int $id): array
-    {
-      $job = Arr::first(static::all(), fn($job) => $job['id'] === $id);
-      if (!$job) abort(404);
-      return $job;
-    }
+  # Para inserir (INSERT INTO)
+  # Job::create(['title' => 'Programador', 'salary' => 'R$ 80.000']);
+  # PS: Apenas colunas que forem mencionadas na propriedade `$fillable`.
+
+  # Para buscar tudo (SELECT sem WHERE)
+  # Job::all();
+  # PS: Linhas resultantes virão em array, as colunas são acessíveis por chave de array e ao mesmo como objeto,
+  # por exemplo `$item['coluna']` e `$item->coluna`.
+
+  # Para buscar pela chave primaria (SELECT com WHERE na PRIMARY KEY)
+  # Job::find(1);
+  # PS: As colunas são acessíveis por chave de array e ao mesmo como objeto, ex: `$item['coluna']` e `$item->coluna`.
+
+  # Para deletar um item
+  # $item->delete()
+  # PS: Este item é resultado de uma consulta.
 }
