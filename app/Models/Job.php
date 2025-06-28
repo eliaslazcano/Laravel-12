@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Job extends Model
 {
+  use HasFactory;
+
   protected $table = 'job_listings'; //Tabela da base de dados para o Eloquent usar de referencia
   protected $fillable = ['title', 'salary']; //Colunas que podem receber INSERT em massa (segurança)
 
