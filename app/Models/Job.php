@@ -28,4 +28,11 @@ class Job extends Model
   # Para deletar um item
   # $item->delete()
   # PS: Este item é resultado de uma consulta.
+
+  # A chave estrangeira `employer_id` possibilita existência de:
+  # Acessar `$item->employer`, que retorna o mesmo que consultar diretamente `Employer::find(1)`
+  public function employer()
+  {
+    return $this->belongsTo(Employer::class, 'employer_id');
+  }
 }
