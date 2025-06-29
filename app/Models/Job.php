@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Job extends Model
 {
@@ -34,5 +35,16 @@ class Job extends Model
   public function employer()
   {
     return $this->belongsTo(Employer::class, 'employer_id');
+  }
+
+  public function tags(): BelongsToMany
+  {
+    return $this->belongsToMany(
+      Tag::class,
+      table: 'job_tag', # tabela pivô (que interliga m:m)
+      foreignPivotKey: 'job_listing_id', # coluna da tabela pivô que representa a chave para este model.
+      relatedPivotKey: 'tag_id' # coluna da tabela pivô que representa a chave para o model passado no primeiro parametro.
+      # Usei parametros nomeados para ficar facil de entender, mas o time do Laravel nao recomenda pq o nome pode mudar entre versoes.
+    );
   }
 }
